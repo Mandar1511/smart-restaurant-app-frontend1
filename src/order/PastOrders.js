@@ -5,7 +5,7 @@ import PrimarySearchAppBar from "../appbar/PrimarySearchAppBar.js";
 import { Box } from "@mui/material";
 import Animation from "../Animation";
 import Config from "../config/Config.js";
-function PastOrders() {
+function PastOrders({ extraNotifications, setExtraNotifications }) {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -26,7 +26,11 @@ function PastOrders() {
   }, []);
   return (
     <div className="main-div-order">
-      <PrimarySearchAppBar role={role} />
+      <PrimarySearchAppBar
+        role={role}
+        extraNotifications={extraNotifications}
+        setExtraNotifications={setExtraNotifications}
+      />
       {isLoading && <Animation />}
       <Box
         style={{

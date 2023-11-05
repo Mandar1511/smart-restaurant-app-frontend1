@@ -8,7 +8,7 @@ import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import TocIcon from "@mui/icons-material/Toc";
 import PlaceOrderButton from "./PlaceOrderButton";
 import PrimarySearchAppBar from "../appbar/PrimarySearchAppBar";
-export default function Cart() {
+export default function Cart({ extraNotifications, setExtraNotifications }) {
   const { cartItems, addToCart, removeFromCart, getCartTotal } =
     useContext(CartContext);
   const user = JSON.parse(localStorage.getItem("SRA_userData"));
@@ -21,7 +21,12 @@ export default function Cart() {
         textAlign: "center",
       }}
     >
-      <PrimarySearchAppBar numberOfCartItems={cartItems.length} role={role} />
+      <PrimarySearchAppBar
+        numberOfCartItems={cartItems.length}
+        role={role}
+        extraNotifications={extraNotifications}
+        setExtraNotifications={setExtraNotifications}
+      />
       <Box
         style={{ display: "inline-block", margin: "0 auto", marginTop: "5em" }}
         sx={{

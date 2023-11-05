@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import DropDown from "./DropDown";
 import Animation from "../Animation";
 import Config from "../config/Config.js";
-function ViewOrders() {
+function ViewOrders({ extraNotifications, setExtraNotifications }) {
   const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [state, setState] = useState("");
@@ -69,7 +69,11 @@ function ViewOrders() {
   }, [state]);
   return (
     <div className="main-div-order">
-      <PrimarySearchAppBar role={role} />
+      <PrimarySearchAppBar
+        role={role}
+        extraNotifications={extraNotifications}
+        setExtraNotifications={setExtraNotifications}
+      />
       {isLoading && <Animation />}
       <Box
         style={{

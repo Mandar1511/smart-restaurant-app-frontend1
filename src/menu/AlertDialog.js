@@ -5,7 +5,14 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { DialogTitle, MenuItem } from "@mui/material";
-export default function AlertDialog({ imageURL, description, calories }) {
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+
+export default function AlertDialog({
+  imageURL,
+  description,
+  calories,
+  preparationTime,
+}) {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -54,7 +61,14 @@ export default function AlertDialog({ imageURL, description, calories }) {
             {description}
           </DialogContentText>
           <DialogContentText id="alert-dialog-description">
-            <b>Calories: {calories}</b>
+            <b>
+              Calories: {calories}{" "}
+              <AccessTimeIcon
+                style={{ position: "relative", top: 8 }}
+              ></AccessTimeIcon>
+              {"    "}
+              {preparationTime} min.
+            </b>
           </DialogContentText>
         </DialogContent>
       </Dialog>

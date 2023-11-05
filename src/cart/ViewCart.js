@@ -1,7 +1,10 @@
 import React from "react";
 import Cart from "./Cart";
 import { useNavigate } from "react-router-dom";
-export default function ViewCart() {
+export default function ViewCart({
+  extraNotifications,
+  setExtraNotifications,
+}) {
   const navigate = useNavigate();
   React.useEffect(() => {
     const user = JSON.parse(localStorage.getItem("SRA_userData"));
@@ -26,7 +29,10 @@ export default function ViewCart() {
   }, []);
   return (
     <div className="main-div">
-      <Cart />
+      <Cart
+        extraNotifications={extraNotifications}
+        setExtraNotifications={setExtraNotifications}
+      />
     </div>
   );
 }

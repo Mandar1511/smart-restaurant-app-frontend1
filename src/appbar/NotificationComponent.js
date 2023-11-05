@@ -4,13 +4,18 @@ import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
-import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Badge from "@mui/material/Badge";
 import Config from "../config/Config";
+import { useEffect, useState, useContext } from "react";
+import DoneAllIcon from "@mui/icons-material/DoneAll";
+import GetReq from "../GetReq";
+import Axios from "axios";
+import { SocketContext } from "../context/socket";
+
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
@@ -20,46 +25,73 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function NotificationComponent() {
+export default function NotificationComponent({
+  extraNotifications,
+  setExtraNotifications,
+}) {
+  const [notifications, setNotifications] = useState([]);
+  const [loading, setIsLoading] = useState(false);
+  const socket = useContext(SocketContext);
 
-      const [notifications, setNotifications] = useState([]);
-      useEffect(() => {
-        const fetchNotifications = async () => {
-          try {
-            const response = await fetch( `${Config.API_BASE_URL}notifications`);
-            if (response.ok) {
-              const data = await response.json();
-              setNotifications(data);
-              displayNotificationsPopup(data);
-            } else {
-              console.error("Failed to fetch notifications");
-            }
-          } catch (error) {
-            console.error("Error fetching notifications:", error);
-          }
-        };
+  const handleDeleteNotification = async (id) => {
+    const token = JSON.parse(localStorage.getItem("SRA_userData")).token;
+    setNotifications(
+      notifications.filter((notification) => notification._id !== id)
+    );
+    await Axios.delete(`${Config.API_BASE_URL}notifications/${id}`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+  };
+  useEffect(() => {
+    viewNotifications();
+    setExtraNotifications(0);
+  }, []);
+  const viewNotifications = () => {
+    GetReq(`${Config.API_BASE_URL}notifications`, setIsLoading)
+      .then((res) => {
+        setNotifications(res);
+        setExtraNotifications(0);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-        fetchNotifications();
-      }, []);
+  const returnFormattedDate = (x) => {
+    const date = new Date(x);
+    const options = {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    };
+    const formattedTimeIST = date.toLocaleString("en-US", options);
+    return formattedTimeIST;
+  };
 
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
+    viewNotifications();
   };
   const handleClose = () => {
     setOpen(false);
   };
 
   return (
-    <React.Fragment>
+    <>
       <IconButton
         size="large"
         aria-label="show 17 new notifications"
         color="inherit"
         onClick={handleClickOpen}
       >
-        <Badge badgeContent={17} color="error">
+        <Badge
+          badgeContent={notifications.length + extraNotifications}
+          color="error"
+        >
           <NotificationsIcon />
         </Badge>
       </IconButton>
@@ -85,15 +117,24 @@ export default function NotificationComponent() {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          <Typography>
-            <ul>
-              {notifications.map((notification) => (
-                <li key={notification._id}>{notification.message}</li>
-              ))}
-            </ul>
-          </Typography>
+          {notifications.length !== 0 &&
+            notifications.map((notification) => (
+              <Typography key={notification._id}>
+                {notification.message}
+                <IconButton
+                  color="success"
+                  onClick={() => handleDeleteNotification(notification._id)}
+                >
+                  <DoneAllIcon />
+                </IconButton>
+                <br></br>
+                {returnFormattedDate(notification.createdAt)}
+
+                <hr></hr>
+              </Typography>
+            ))}
         </DialogContent>
       </BootstrapDialog>
-    </React.Fragment>
+    </>
   );
 }

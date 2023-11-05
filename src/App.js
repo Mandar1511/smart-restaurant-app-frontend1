@@ -14,6 +14,7 @@ import UnauthorizedPage from "./UnautorizedPage";
 import { SocketContext } from "./context/socket";
 
 function App() {
+  const [extraNotifications, setExtraNotifications] = useState(0);
   const socket = useContext(SocketContext);
   const user = JSON.parse(localStorage.getItem("SRA_userData"));
   let role = "";
@@ -22,6 +23,7 @@ function App() {
   }
   useEffect(() => {
     socket.on("pick_order", (data) => {
+      setExtraNotifications((extraNotifications) => extraNotifications + 1);
       console.log("pick_order");
       toast.info(data, {
         position: "bottom-right",
@@ -33,6 +35,7 @@ function App() {
       });
     });
     socket.on("chef_ended", (data) => {
+      setExtraNotifications((extraNotifications) => extraNotifications + 1);
       toast.info(data, {
         position: "bottom-right",
         autoClose: 5000,
@@ -43,6 +46,7 @@ function App() {
       });
     });
     socket.on("waiter_confirmed", (data) => {
+      setExtraNotifications((extraNotifications) => extraNotifications + 1);
       toast.info(data, {
         position: "bottom-right",
         autoClose: 5000,
@@ -53,6 +57,7 @@ function App() {
       });
     });
     socket.on("chef_started", (data) => {
+      setExtraNotifications((extraNotifications) => extraNotifications + 1);
       toast.info(data, {
         position: "bottom-right",
         autoClose: 5000,
@@ -88,7 +93,10 @@ function App() {
             path="/menu"
             element={
               <CartProvider>
-                <MenuList />
+                <MenuList
+                  extraNotifications={extraNotifications}
+                  setExtraNotifications={setExtraNotifications}
+                />
               </CartProvider>
             }
           ></Route>
@@ -96,7 +104,10 @@ function App() {
             path="/cart"
             element={
               <CartProvider>
-                <ViewCart />
+                <ViewCart
+                  extraNotifications={extraNotifications}
+                  setExtraNotifications={setExtraNotifications}
+                />
               </CartProvider>
             }
           ></Route>
@@ -104,11 +115,22 @@ function App() {
             path="/orders"
             element={
               <CartProvider>
-                <ViewOrders />
+                <ViewOrders
+                  extraNotifications={extraNotifications}
+                  setExtraNotifications={setExtraNotifications}
+                />
               </CartProvider>
             }
           ></Route>
-          <Route path="/past-orders" element={<PastOrders />}></Route>
+          <Route
+            path="/past-orders"
+            element={
+              <PastOrders
+                extraNotifications={extraNotifications}
+                setExtraNotifications={setExtraNotifications}
+              />
+            }
+          ></Route>
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
         </Routes>
       </Router>

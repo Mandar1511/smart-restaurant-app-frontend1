@@ -11,7 +11,7 @@ import PrimarySearchAppBar from "../appbar/PrimarySearchAppBar.js";
 import BrowseMenu from "./BrowseMenu";
 import Animation from "../Animation";
 import Config from "../config/Config.js";
-const MenuList = () => {
+const MenuList = ({ extraNotifications, setExtraNotifications }) => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("SRA_userData"));
   // console.log(user);
@@ -112,7 +112,12 @@ const MenuList = () => {
       <Box marginTop="4.5em">
         <BrowseMenu cuisines={cuisines} />
       </Box>
-      <PrimarySearchAppBar numberOfCartItems={cartItems.length} role={role} />
+      <PrimarySearchAppBar
+        numberOfCartItems={cartItems.length}
+        role={role}
+        extraNotifications={extraNotifications}
+        setExtraNotifications={setExtraNotifications}
+      />
       {isLoading && <Animation />}
       {sortedDishes.map((menuItems) => (
         <Box key={menuItems[0].cuisine} id={menuItems[0].cuisine}>

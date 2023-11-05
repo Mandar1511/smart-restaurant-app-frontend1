@@ -8,6 +8,7 @@ import StarIcon from "@mui/icons-material/Star";
 import AlertDialog from "./AlertDialog";
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import RemoveIcon from "@mui/icons-material/Remove";
 export default function SingleItem({
   menuItem,
@@ -18,6 +19,11 @@ export default function SingleItem({
   const cartQuantity = cartItems.filter((item) => {
     return item._id === menuItem._id;
   });
+  const user = JSON.parse(localStorage.getItem("SRA_userData"));
+  let role = "";
+  if (user) {
+    role = user.role;
+  }
 
   let itemName = menuItem.name;
   let itemPrice = menuItem.price;
@@ -111,6 +117,7 @@ export default function SingleItem({
               imageURL={imageURL}
               description={description}
               calories={menuItem.calories}
+              preparationTime={menuItem.preparationTime}
             />
           </CardContent>
         </Box>
@@ -129,8 +136,19 @@ export default function SingleItem({
           }}
         >
           <Typography>
-            {description} <br></br> <b>calories: {menuItem.calories}</b>{" "}
-            {preparationTime && <p>preparationTime: {preparationTime} min.</p>}
+            {description} <br></br>
+            <b style={{ display: "inline" }}>
+              calories: {menuItem.calories + "  "}
+              {preparationTime && (
+                <>
+                  <AccessTimeIcon
+                    style={{ position: "relative", top: 8 }}
+                  ></AccessTimeIcon>
+                  {"    "}
+                  {preparationTime} min.
+                </>
+              )}
+            </b>{" "}
           </Typography>
         </Box>
         <CardMedia
@@ -161,7 +179,7 @@ export default function SingleItem({
             bottom: { xl: "25px", lg: "25px", sm: "20px", xs: "25px" },
           }}
         >
-          {cartQuantity.length === 0 && (
+          {cartQuantity.length === 0 && role === "customer" && (
             <Button
               variant="contained"
               style={{
@@ -177,7 +195,7 @@ export default function SingleItem({
               ADD
             </Button>
           )}
-          {cartQuantity.length > 0 && (
+          {cartQuantity.length > 0 && role === "customer" && (
             <Button
               disableRipple
               variant="contained"
