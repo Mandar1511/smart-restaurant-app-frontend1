@@ -9,7 +9,6 @@ import InputBase from "@mui/material/InputBase";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
-import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import RestaurantMenuIcon from "@mui/icons-material/RestaurantMenu";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -18,46 +17,6 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@mui/material";
 import { SocketContext } from "../context/socket";
-
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(3),
-    width: "auto",
-  },
-}));
-
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
-    },
-  },
-}));
 
 export default function PrimarySearchAppBar({ numberOfCartItems, role }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -106,9 +65,8 @@ export default function PrimarySearchAppBar({ numberOfCartItems, role }) {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-
       <MenuItem onClick={() => naviagte("/past-orders")}>Past Orders</MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
     </Menu>
   );
 
@@ -129,19 +87,22 @@ export default function PrimarySearchAppBar({ numberOfCartItems, role }) {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 4 new mails"
-          color="inherit"
-          onClick={() => naviagte("/cart")}
-        >
-          <Badge badgeContent={numberOfCartItems} color="error">
-            <ShoppingCartIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
+      {role == "customer" && (
+        <MenuItem>
+          <IconButton
+            size="large"
+            aria-label="show 4 new mails"
+            color="inherit"
+            onClick={() => naviagte("/cart")}
+          >
+            <Badge badgeContent={numberOfCartItems} color="error">
+              <ShoppingCartIcon />
+            </Badge>
+          </IconButton>
+          <p>Cart</p>
+        </MenuItem>
+      )}
+
       {(role === "waiter" || role === "chef") && (
         <MenuItem>
           <IconButton
@@ -157,30 +118,14 @@ export default function PrimarySearchAppBar({ numberOfCartItems, role }) {
         </MenuItem>
       )}
       {role === "customer" && (
-        <Button
-          onClick={() => naviagte("/orders")}
-          variant="outlined"
-          style={{
-            color: "#563c38",
-            borderColor: "#563c38",
-            marginLeft: "5px",
-          }}
-        >
-          Orders Placed
-        </Button>
+        <MenuItem onClick={() => naviagte("/orders")}>Orders Placed</MenuItem>
       )}
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          size="large"
-          aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
-          aria-haspopup="true"
-          color="inherit"
-        >
-          <AccountCircle />
-        </IconButton>
-        <p>Profile</p>
-      </MenuItem>
+
+      {role === "customer" && (
+        <MenuItem onClick={() => naviagte("/past-orders")}>
+          Past Orders
+        </MenuItem>
+      )}
       <MenuItem onClick={handleLogout}>
         <p>Logout</p>
       </MenuItem>
@@ -213,15 +158,6 @@ export default function PrimarySearchAppBar({ numberOfCartItems, role }) {
           >
             Smart Restaurant App
           </Typography>
-          <Search style={{ backgroundColor: "#f2f2f2" }}>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ "aria-label": "search" }}
-            />
-          </Search>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: "none", md: "flex" } }}>
             <IconButton

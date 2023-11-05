@@ -3,7 +3,6 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { Button } from "@mui/material";
 import DeleteOrderDialog from "./DeleteOrderDialog";
-import UpdateOrderDialog from "./UpdateOrderDialog";
 import RateOrderDialog from "./RateOrderDialog";
 
 export default function SingleOrder({
@@ -128,7 +127,6 @@ export default function SingleOrder({
               order.status === "confirmed_by_chef"))) && (
           <>
             <DeleteOrderDialog deleteOrder={deleteOrder} orderID={order._id} />
-            <UpdateOrderDialog deleteOrder={deleteOrder} orderID={order._id} />
           </>
         )}
 
