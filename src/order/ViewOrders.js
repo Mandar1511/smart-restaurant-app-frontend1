@@ -63,9 +63,9 @@ function ViewOrders({ extraNotifications, setExtraNotifications }) {
         setOrders(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
-    console.log(apiURL);
+    // console.log(apiURL);
   }, [state]);
   return (
     <div className="main-div-order">

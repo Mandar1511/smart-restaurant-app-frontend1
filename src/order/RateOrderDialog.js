@@ -38,7 +38,7 @@ export default function RateOrderDialog({ order }) {
           }
         );
       } catch (err) {
-        console.log(err);
+        // console.log(err);
       }
     }
     try {
@@ -54,7 +54,7 @@ export default function RateOrderDialog({ order }) {
         }
       );
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
     handleClose();
   };

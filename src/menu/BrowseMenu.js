@@ -19,7 +19,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function BrowseMenu({ cuisines }) {
-  console.log(cuisines);
+  // console.log(cuisines);
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {

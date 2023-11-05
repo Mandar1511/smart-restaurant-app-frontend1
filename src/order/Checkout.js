@@ -23,13 +23,13 @@ const Checkout = () => {
     )
       .then((res) => {
         setOrders(res);
-        console.log(res);
+        // console.log(res);
         let temp = 0;
         res.map((x) => (temp += x.totalAmount));
         setTotal(Math.round(temp));
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
   const initPayment = (data) => {
@@ -42,7 +42,7 @@ const Checkout = () => {
       order_id: data.id,
       handler: async function (response) {
         try {
-          console.log("handler", response);
+          // console.log("handler", response);
           const verifyURL = `${Config.API_BASE_URL}payment/verify`;
           const { data } = await Axios.post(verifyURL, response, {
             headers: {
@@ -51,7 +51,7 @@ const Checkout = () => {
           });
           navigate("/menu");
         } catch (err) {
-          console.log(err);
+          // console.log(err);
         }
       },
       theme: {
@@ -76,11 +76,11 @@ const Checkout = () => {
           },
         }
       );
-      console.log("sfsf", data);
+      // console.log("sfsf", data);
 
       initPayment(data.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 

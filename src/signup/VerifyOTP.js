@@ -75,7 +75,7 @@ export default function VerifyOTP() {
   }
 
   async function handlePost(postdata) {
-    console.log(postdata);
+    // console.log(postdata);
     try {
       const { data } = await axios.post(
         `${Config.API_BASE_URL}users/verify-otp`,
@@ -106,7 +106,7 @@ export default function VerifyOTP() {
         navigate("/orders");
       }
     } catch (err) {
-      console.log(err.response.data.message);
+      // console.log(err.response.data.message);
       toast.error(`${err.response.data.message}`, {
         position: "bottom-right",
         autoClose: 3000,
@@ -121,7 +121,7 @@ export default function VerifyOTP() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log(JSON.parse(localStorage.getItem("SRA_userData")).email);
+    // console.log(JSON.parse(localStorage.getItem("SRA_userData")).email);
     let postdata = {
       email: JSON.parse(localStorage.getItem("SRA_userData")).email,
       enteredOTP: data.get("code"),

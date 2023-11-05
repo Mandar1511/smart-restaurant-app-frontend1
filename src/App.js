@@ -24,7 +24,7 @@ function App() {
   useEffect(() => {
     socket.on("pick_order", (data) => {
       setExtraNotifications((extraNotifications) => extraNotifications + 1);
-      console.log("pick_order");
+      // console.log("pick_order");
       toast.info(data, {
         position: "bottom-right",
         autoClose: 5000,

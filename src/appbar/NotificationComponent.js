@@ -55,7 +55,7 @@ export default function NotificationComponent({
         setExtraNotifications(0);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   };
 

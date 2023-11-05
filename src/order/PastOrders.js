@@ -21,7 +21,7 @@ function PastOrders({ extraNotifications, setExtraNotifications }) {
         setOrders(res);
       })
       .catch((err) => {
-        console.log(err);
+        // console.log(err);
       });
   }, []);
   return (

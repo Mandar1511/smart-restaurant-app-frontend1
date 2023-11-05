@@ -75,7 +75,7 @@ const MenuList = ({ extraNotifications, setExtraNotifications }) => {
           currentGroup.push(dish);
         }
         setSortedDishes(temp);
-        console.log(sortedDishes);
+        // console.log(sortedDishes);
       })
       .catch((err) => {
         toast.error(`${err.response.data.message}`, {
