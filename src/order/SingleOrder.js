@@ -122,8 +122,7 @@ export default function SingleOrder({
             (order.status === "pending" ||
               order.status === "confirmed_by_waiter")) ||
           (role === "chef" &&
-            (order.status === "pending" ||
-              order.status === "confirmed_by_waiter" ||
+            (order.status === "confirmed_by_waiter" ||
               order.status === "confirmed_by_chef"))) && (
           <>
             <DeleteOrderDialog deleteOrder={deleteOrder} orderID={order._id} />

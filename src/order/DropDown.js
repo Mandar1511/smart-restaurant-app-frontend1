@@ -4,14 +4,18 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { Typography } from "@mui/material";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-export default function DropDown({ setState, state }) {
+export default function DropDown({ setState, state, refresh, setRefresh }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleClose = (x) => {
     setAnchorEl(null);
+    if (x === state) {
+      setRefresh((refresh) => !refresh);
+    }
+    setState(x);
   };
   return (
     <div>
@@ -58,8 +62,7 @@ export default function DropDown({ setState, state }) {
       >
         <MenuItem
           onClick={() => {
-            setState("pending");
-            handleClose();
+            handleClose("pending");
           }}
         >
           {" "}
@@ -68,8 +71,7 @@ export default function DropDown({ setState, state }) {
 
         <MenuItem
           onClick={() => {
-            setState("confirmed_by_waiter");
-            handleClose();
+            handleClose("confirmed_by_waiter");
           }}
         >
           {" "}
@@ -77,8 +79,7 @@ export default function DropDown({ setState, state }) {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            setState("confirmed_by_chef");
-            handleClose();
+            handleClose("confirmed_by_chef");
           }}
         >
           {" "}
@@ -86,8 +87,7 @@ export default function DropDown({ setState, state }) {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            setState("order_is_ready");
-            handleClose();
+            handleClose("order_is_ready");
           }}
         >
           {" "}
@@ -95,8 +95,7 @@ export default function DropDown({ setState, state }) {
         </MenuItem>
         <MenuItem
           onClick={() => {
-            setState("payment_done");
-            handleClose();
+            handleClose("payment_done");
           }}
         >
           {" "}

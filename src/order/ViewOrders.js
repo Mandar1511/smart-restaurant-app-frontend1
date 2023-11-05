@@ -12,7 +12,7 @@ function ViewOrders({ extraNotifications, setExtraNotifications }) {
   const [orders, setOrders] = useState([]);
   const [state, setState] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
+  const [refresh, setRefresh] = useState(0);
   const user = JSON.parse(localStorage.getItem("SRA_userData"));
   const role = user.role;
   React.useEffect(() => {
@@ -66,7 +66,7 @@ function ViewOrders({ extraNotifications, setExtraNotifications }) {
         // console.log(err);
       });
     // console.log(apiURL);
-  }, [state]);
+  }, [state, refresh]);
   return (
     <div className="main-div-order">
       <PrimarySearchAppBar
@@ -82,7 +82,14 @@ function ViewOrders({ extraNotifications, setExtraNotifications }) {
           justifyContent: "center",
         }}
       >
-        {role !== "customer" && <DropDown setState={setState} state={state} />}
+        {role !== "customer" && (
+          <DropDown
+            setState={setState}
+            state={state}
+            refresh={refresh}
+            setRefresh={setRefresh}
+          />
+        )}
         {role === "customer" && (
           <Button
             variant="contained"
