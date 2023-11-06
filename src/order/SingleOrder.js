@@ -13,7 +13,7 @@ export default function SingleOrder({
   deleteOrder,
   page,
 }) {
-  let colorOfb = "#29BB89";
+  let colorOfb = "#0248fa";
   const date = new Date(order.createdAt);
   const options = {
     hour: "2-digit",
@@ -23,9 +23,9 @@ export default function SingleOrder({
   const formattedTimeIST = date.toLocaleString("en-US", options);
   const state = order.status;
   if (state === "confirmed_by_waiter") {
-    colorOfb = "#289672";
+    colorOfb = "#fa0202";
   } else if (state === "confirmed_by_chef") {
-    colorOfb = "#1E6F5C";
+    colorOfb = "#fac802";
   } else {
     colorOfb = "green";
   }
